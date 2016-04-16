@@ -10,14 +10,14 @@ CREATE TABLE Pessoa (
 );
 
 CREATE TABLE Funcionario (
-	Numero_de_funcionario smallint NOT NULL CHECK( Numero_de_funcionario<20000),
+	Numero_de_funcionario smallint NOT NULL,
 	CC_funcionario CHAR(9) NOT NULL,
 	Constraint Pk_num_func PRIMARY KEY (Numero_de_funcionario),
 	CONSTRAINT Fk_CC_funcionario FOREIGN KEY (CC_funcionario) REFERENCES Pessoa(CC)
 );
 
 CREATE TABLE Posto_Venda (
-	N_Balcao smallint UNIQUE NOT NULL CHECK( N_Balcao<20000),
+	N_Balcao smallint UNIQUE NOT NULL,
 	Constraint Pk_N_Balcao PRIMARY KEY (N_Balcao)
 );
 
@@ -64,10 +64,10 @@ CREATE TABLE Recibo (
 );
 
 CREATE TABLE Itinerario_da_Viagem (
-	Local_Partida varchar(64) NOT NULL,
-	Local_Destino varchar(64) NOT NULL,
+	Local_Partida varchar(64) NOT NULL CHECK (Local_Partida like '([a-z]|[A-Z])+'),
+	Local_Destino varchar(64) NOT NULL CHECK (Local_Destino like '([a-z]|[A-Z])+'),
 	Hora_partida_origem Timestamp,
-	N_etapas smallint,
+	N_etapas smallint CHECK (N_etapas<1000),
 	Primary key(Local_Partida, Local_Destino)
 );
 
@@ -85,14 +85,14 @@ CREATE TABLE Etapas (
 CREATE TABLE Transporte (
 	ID smallint NOT NULL,
 	Bilhete smallint NOT NULL,
-	Companhia varchar(64),
+	Companhia varchar(64) CHECK  (Companhia like '([a-z]|[A-Z])+'),
 	Constraint Pk_ID PRIMARY KEY (ID)
 );
 
 CREATE TABLE Tipo_Transporte (
 	ID_Tipo_Transporte smallint NOT NULL,
 	ID_transporte_fk smallint NOT NULL,
-	Designacao varchar(64),
+	Designacao varchar(64) CHECK  (Designacao like '([a-z]|[A-Z])+') ,
 	Constraint Pk_ID_Tipo_Transporte PRIMARY KEY (ID_Tipo_Transporte),
 	CONSTRAINT Fk_ID_transporte FOREIGN KEY (ID_transporte_fk) REFERENCES Transporte(ID)
 
@@ -101,7 +101,7 @@ CREATE TABLE Tipo_Transporte (
 CREATE TABLE Estadia (
 	ID_Estadia smallint NOT NULL,
 	Morada varchar(128),
-	Pais varchar(32),
+	Pais varchar(32) CHECK (Pais like '([a-z]|[A-Z])+'),
 	Custo float,
 	Duracao smallint,
 	N_Reserva_fk int NOT NULL,
