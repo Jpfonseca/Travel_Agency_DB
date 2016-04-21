@@ -4,14 +4,14 @@ use Sistema;
 
 
 CREATE TABLE Pessoa (
-	CC CHAR(9) NOT NULL CHECK (CC like '([0-9]+)'),
+	CC INT(9) NOT NULL ,
 	Nome varCHAR(128) CHECK (Nome like '([a-z]|[A-Z])+'),
 	Constraint Pk_CC PRIMARY KEY (CC)
 );
 
 CREATE TABLE Funcionario (
 	Numero_de_funcionario smallint NOT NULL,
-	CC_funcionario CHAR(9) NOT NULL,
+	CC_funcionario INT(9) NOT NULL,
 	Constraint Pk_num_func PRIMARY KEY (Numero_de_funcionario),
 	CONSTRAINT Fk_CC_funcionario FOREIGN KEY (CC_funcionario) REFERENCES Pessoa(CC)
 );
@@ -22,8 +22,8 @@ CREATE TABLE Posto_Venda (
 );
 
 CREATE TABLE Cliente (
-	Nif char(9) CHECK (Nif like '([0-9]+)'),
-	Contacto_telefonico char(9) CHECK (Contacto_telefonico like '([0-9]+)'),
+	Nif INT(9) NOT NULL,
+	Contacto_telefonico INT(9) ,
 	Constraint Pk_Nif PRIMARY KEY (Nif)
 );
 
@@ -36,8 +36,8 @@ CREATE TABLE Trabalha (
 );
 
 CREATE TABLE Pessoa_Singular (
-	CC_Pessoa_Singular CHAR(9) NOT NULL,
-	Nif2 CHAR(9) NOT NULL,
+	CC_Pessoa_Singular INT(9) NOT NULL,
+	Nif2 INT(9) NOT NULL,
 	CONSTRAINT Fk_CC_Singular FOREIGN KEY (CC_Pessoa_Singular) REFERENCES Pessoa(CC),
 	CONSTRAINT Fk_Nif2 FOREIGN KEY (Nif2) REFERENCES Cliente(Nif)
 );
@@ -46,7 +46,7 @@ CREATE TABLE Empresa (
 	NRegisto smallint NOT NULL CHECK( NRegisto<200000),
 	Nome varCHAR(128),
 	Capital_Social int,
-	Nif3 CHAR(9) NOT NULL,
+	Nif3 INT(9) NOT NULL,
 	Constraint Pk_NRegisto PRIMARY KEY (NRegisto),
 	CONSTRAINT Fk_Nif_E FOREIGN KEY (Nif3) REFERENCES Cliente(Nif)
 );
@@ -55,7 +55,7 @@ CREATE TABLE Empresa (
 
 CREATE TABLE Recibo (
 	Num_Recibo int NOT NULL CHECK (Num_Recibo like '([0-9]+)'),
-	Nif_Recibo CHAR(9),
+	Nif_Recibo INT(9),
 	Valor float,
 	Data Date,
 	N_Reserva_fk int,
@@ -79,7 +79,7 @@ CREATE TABLE Etapas (
 	Destino varchar(64) NOT NULL,
 	Hora_de_Partida timestamp NOT NULL,
 	ID_Transporte_fk smallint NOT NULL, -- alterar
-	
+
 );
 
 CREATE TABLE Transporte (
@@ -111,7 +111,7 @@ CREATE TABLE Estadia (
 CREATE TABLE Reserva (
 	N_Reserva int NOT NULL,
 	Posto_venda_fk smallint NOT NULL,
-	Nif_Cliente_fk char(9) NOT NULL,
+	Nif_Cliente_fk INT(9) NOT NULL,
 	Local_partida_fk varchar(64) NOT NULL,
 	Local_destino_fk varchar(64) NOT NULL,
 	Custo float,
@@ -119,7 +119,7 @@ CREATE TABLE Reserva (
 	CONSTRAINT Fk_Posto_venda FOREIGN KEY (Posto_venda_fk) REFERENCES Posto_Venda(N_Balcao),
 	CONSTRAINT Fk_Nif_Cliente FOREIGN KEY (Nif_Cliente_fk) REFERENCES Cliente(Nif),
 	CONSTRAINT Fk_Local FOREIGN KEY (Local_partida_fk, Local_destino_fk) REFERENCES Itinerario_da_Viagem(Local_Partida, Local_Destino),
-	
+
 );
 
 ALTER TABLE Recibo
@@ -128,8 +128,7 @@ ALTER TABLE Recibo
 ALTER TABLE Etapas
 	ADD CONSTRAINT fk_ID_Transporte2 FOREIGN KEY(ID_Transporte_fk) REFERENCES Transporte(ID),
 		CONSTRAINT fk_local_pd FOREIGN KEY(Local_Partida_fk, Local_Destino_fk) REFERENCES Itinerario_da_Viagem(Local_Partida, Local_Destino);
-		
+
 
 ALTER TABLE Estadia
 	ADD CONSTRAINT fk_N_reserva2 FOREIGN KEY(N_Reserva_fk) REFERENCES Reserva(N_Reserva);
-
