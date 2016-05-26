@@ -88,11 +88,10 @@ CREATE TABLE Etapas (
 );
 
 CREATE TABLE Reserva (
-	N_Reserva int NOT NULL,
+	N_Reserva int NOT NULL IDENTITY(1,1),
 	Posto_venda_fk smallint NOT NULL,
 	Nif_Cliente_fk INT NOT NULL,
 	Itinerario_fk Smallint NOT NULL,
-	Custo float,
 	Constraint Pk_N_Reserva PRIMARY KEY (N_Reserva),
 	CONSTRAINT Fk_Posto_venda FOREIGN KEY (Posto_venda_fk) REFERENCES Posto_Venda(N_Balcao),
 	CONSTRAINT Fk_Nif_Cliente FOREIGN KEY (Nif_Cliente_fk) REFERENCES Cliente(Nif),
@@ -100,7 +99,7 @@ CREATE TABLE Reserva (
 );
 
 CREATE TABLE Estadia (
-	ID_Estadia smallint NOT NULL,
+	ID_Estadia smallint NOT NULL IDENTITY(1,1),
 	Morada varchar(128),
 	Pais varchar(32) CHECK (Pais like '[a-Z][a-Z]%'),
 	Custo float,
@@ -109,7 +108,6 @@ CREATE TABLE Estadia (
 	Constraint Pk_ID_Estadia PRIMARY KEY (ID_Estadia),
 	CONSTRAINT fk_N_reserva2 FOREIGN KEY(N_Reserva_fk) REFERENCES Reserva(N_Reserva)
 );
-
 
 
 CREATE TABLE Recibo (
