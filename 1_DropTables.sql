@@ -73,5 +73,3 @@ AS
 GO
 
 EXECUTE sp_dropAll;
-
-
