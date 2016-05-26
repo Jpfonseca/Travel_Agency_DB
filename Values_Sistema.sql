@@ -27,7 +27,7 @@ INSERT INTO Pessoa VALUES (252588886, 'Rui Esponja');
 INSERT INTO Pessoa VALUES (558846, 'Andre InConciente');
 INSERT INTO Pessoa VALUES (4484586, 'Carlos Castro');
 INSERT INTO Pessoa VALUES (14586, 'Cristiano Silvestre');
-INSERT INTO Pessoa VALUES (515156, 'In�s Morais');
+INSERT INTO Pessoa VALUES (515156, 'Ines Morais');
 INSERT INTO Pessoa VALUES (5151586, 'Isabel Pestana');
 INSERT INTO Pessoa VALUES (54868486, 'Luis Asdrubal');
 INSERT INTO Pessoa VALUES (895852476, 'Sara Aveiro');
@@ -201,74 +201,87 @@ INSERT INTO Tipo_Transporte VALUES((SELECT ID_t FROM Transporte WHERE ID_t=234),
 INSERT INTO Tipo_Transporte VALUES((SELECT ID_t FROM Transporte WHERE ID_t=532),(SELECT ID_t FROM Transporte WHERE ID_t=532),'Avião');
 
 --Etapas(N_Etapa,Preco,Origem,Destino,Hora_de_Partida,ID_transporte_fk1,ID_itinerario_fk1)
---1
+
 INSERT INTO Etapas VALUES(1,123,'Lisboa','Entroncamento','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=32),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=1));
 INSERT INTO Etapas VALUES(2,21,'Entroncamento','Viseu','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=45),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=1));
 INSERT INTO Etapas VALUES(3,15,'Viseu','Malaga','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=23),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=1));
---2
+
 INSERT INTO Etapas VALUES(1,3,'Porto','Granja','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=32),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=12));
 INSERT INTO Etapas VALUES(2,5,'Granja','Ovar','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=32),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=12));
 INSERT INTO Etapas VALUES(3,6,'Ovar','Estarreja','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=32),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=12));
---3
+
 INSERT INTO Etapas VALUES(1,7,'Aveiro','Gaia','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=32),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=123));
 INSERT INTO Etapas VALUES(2,2,'Gaia','Porto','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=543),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=123));
 INSERT INTO Etapas VALUES(3,5,'Porto','Régua','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=75),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=123));
---4
+
 INSERT INTO Etapas VALUES(1,30,'Londres','Madrid','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=532),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=1234));
 INSERT INTO Etapas VALUES(2,5,'Madrid','Azores','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=532),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=1234));
 INSERT INTO Etapas VALUES(3,80,'Azores','New York','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=234),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=1234));
---5
+
 INSERT INTO Etapas VALUES(1,20,'Frankfurt','Ankara','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=1),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2341));
 INSERT INTO Etapas VALUES(2,50,'Ankara','Bombai','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=532),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2341));
 INSERT INTO Etapas VALUES(3,30,'Bombai','Queensland','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=213),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2341));
 INSERT INTO Etapas VALUES(4,40,'Queensland','Sydney','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=213),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2341));
---6
+
 INSERT INTO Etapas VALUES(1,2,'Rio Tinto','Porto','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=235),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2314));
 INSERT INTO Etapas VALUES(2,15,'Porto','Frankfurt','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=234),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2314));
 INSERT INTO Etapas VALUES(3,32,'Frankfurt','Ankara','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=213),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2314));
 INSERT INTO Etapas VALUES(4,43,'Ankara','Bangkok','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=213),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2314));
---7
+
 INSERT INTO Etapas VALUES(1,5,'Varsóvia','Moscovo','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=675),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=3412));
 
---8
+
 INSERT INTO Etapas VALUES(1,32,'Lodz','Poznan','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=675),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=4516));
 INSERT INTO Etapas VALUES(2,231,'Poznan','Ankara','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=23),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=4516));
 INSERT INTO Etapas VALUES(3,5,'Ankara','Istambul','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=23),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=4516));
---9
+
 INSERT INTO Etapas VALUES(1,432,'Shangai','Ankara','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=213),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2642));
 INSERT INTO Etapas VALUES(3,23,'Ankara','Reina','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=532),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2642));
---10
+
 INSERT INTO Etapas VALUES(1,2,'Albufeira','Vilamoura','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=45),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=1253));
---11
+
 INSERT INTO Etapas VALUES(1,50,'Berlim','Porto','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=23),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=5000));
 INSERT INTO Etapas VALUES(2,2,'Porto','Aveiro','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=32),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=5000));
---12
+
 INSERT INTO Etapas VALUES(1,32,'Moscovo','Oahu','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=213),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=5123));
 INSERT INTO Etapas VALUES(4,2,'Oahu','Havana','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=213),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=5123));
---13
+
 INSERT INTO Etapas VALUES(4,3,'Brasilia','Rio de Janeiro','2009-02-09',(SELECT ID_t FROM Transporte WHERE ID_t=1),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=6822));
 
 
 
+--Reserva (	(identity)N_Reserva,Posto_venda_fk ,Nif_Cliente_fk ,Itinerario_fk)
+
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=1),(SELECT Nif FROM Cliente WHERE Nif=222154988),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=1));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=2),(SELECT Nif FROM Cliente WHERE Nif=555849985),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=12));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=15),(SELECT Nif FROM Cliente WHERE Nif=848961861),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=123));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=20),(SELECT Nif FROM Cliente WHERE Nif=686845168),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=1234));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=27),(SELECT Nif FROM Cliente WHERE Nif=616841451),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2341));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=40),(SELECT Nif FROM Cliente WHERE Nif=265223669),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2314));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=168),(SELECT Nif FROM Cliente WHERE Nif=268484294),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=3412));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=289),(SELECT Nif FROM Cliente WHERE Nif=221154988),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=4516));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=324),(SELECT Nif FROM Cliente WHERE Nif=551849985),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=2642));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=458),(SELECT Nif FROM Cliente WHERE Nif=841961861),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=1253));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=464),(SELECT Nif FROM Cliente WHERE Nif=681845168),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=5000));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=532),(SELECT Nif FROM Cliente WHERE Nif=611841451),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=5123));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=512),(SELECT Nif FROM Cliente WHERE Nif=261223669),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=6822));
+INSERT INTO Reserva VALUES ((SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=1000),(SELECT Nif FROM Cliente WHERE Nif=231816984),(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=5795));
 
 
+-- Estadia (	ID_Estadia,	Morada,	Pais,	Custo, Duracao,	N_Reserva_fk)
+INSERT INTO Estadia VALUES ('Street random','Portugal',12,5,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=1));
+INSERT INTO Estadia VALUES ('Street random 1','Rio de Janeiro',123,5,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=2));
+INSERT INTO Estadia VALUES ('Street random 2','Havana',65,5,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=3));
+INSERT INTO Estadia VALUES ('Street random 3','Aveiro',45,8,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=4));
+INSERT INTO Estadia VALUES ('Street random 4','Vilamoura',45,2,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=5));
+INSERT INTO Estadia VALUES ('Street random 5','Reina',564,8,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=6));
+INSERT INTO Estadia VALUES ('Street random 6','IIstambul',456,2,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=7));
+INSERT INTO Estadia VALUES ('Street random 7','Moscovo',456,8,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=8));
+INSERT INTO Estadia VALUES ('Street random 8','Bangkok',645,5,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=9));
+INSERT INTO Estadia VALUES ('Street random 9','Sydney',65,8,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=10));
+INSERT INTO Estadia VALUES ('Street random 10','New York',456,8,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=11));
+INSERT INTO Estadia VALUES ('Street random 11','Estarreja',46,8,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=12));
+INSERT INTO Estadia VALUES ('Street random 12','Malaga',45,8,(SELECT N_Reserva FROM Reserva WHERE N_Reserva=13));
 
 
-
-
---CC
-
---SELECT CC FROM Pessoa WHERE CC=1234
---SELECT CC FROM Pessoa WHERE CC=1235
---SELECT CC FROM Pessoa WHERE CC=12324
---SELECT CC FROM Pessoa WHERE CC=12357
---SELECT CC FROM Pessoa WHERE CC=121788
---SELECT CC FROM Pessoa WHERE CC=2525525
---SELECT CC FROM Pessoa WHERE CC=25258888
---SELECT CC FROM Pessoa WHERE CC=55884
---SELECT CC FROM Pessoa WHERE CC=448458
---SELECT CC FROM Pessoa WHERE CC=1458
---SELECT CC FROM Pessoa WHERE CC=51515
---SELECT CC FROM Pessoa WHERE CC=515158
---SELECT CC FROM Pessoa WHERE CC=5486848
---SELECT CC FROM Pessoa WHERE CC=89585247
+--Rcibo A fazer
