@@ -1,5 +1,3 @@
-
-
 USE Sistema;
 
 GO
@@ -66,7 +64,7 @@ EXECUTE sp_dropAll;
 DROP DATABASE Sistema;
 
 
---Apagar Tabelas à pedreiro +-
+--Apagar Tabelas Ã  pedreiro +-
 
 
 
