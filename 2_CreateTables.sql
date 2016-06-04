@@ -10,14 +10,14 @@ CREATE TABLE Pessoa (
 );
 
 CREATE TABLE Funcionario (
-	Numero_de_funcionario smallint NOT NULL,
+	Numero_de_funcionario smallint NOT NULL IDENTITY(1,1),
 	CC_funcionario INT NOT NULL,
 	Constraint Pk_num_func PRIMARY KEY (Numero_de_funcionario),
 	CONSTRAINT Fk_CC_funcionario FOREIGN KEY (CC_funcionario) REFERENCES Pessoa(CC)
 );
 
 CREATE TABLE Posto_Venda (
-	N_Balcao smallint UNIQUE NOT NULL,
+	N_Balcao smallint UNIQUE NOT NULL IDENTITY(1,1),
 	Constraint Pk_N_Balcao PRIMARY KEY (N_Balcao)
 );
 
@@ -52,15 +52,15 @@ CREATE TABLE Empresa (
 );
 
 CREATE TABLE Itinerario_da_Viagem (
-	ID_v smallint NOT NULL , --IDENTITY(1,1)
+	ID_v smallint NOT NULL IDENTITY(1,1),
 	Local_Partida varchar(64) NOT NULL CHECK (Local_Partida like '[a-Z][a-Z]%'),
 	Local_Destino varchar(64) NOT NULL CHECK (Local_Destino like '[a-Z][a-Z]%'),
-	Hora_partida_origem DATE,
+	Hora_partida_origem DATE DEFAULT GETDATE(),
 	Constraint Pk_ID_v Primary key(ID_v)
 );
 
 CREATE TABLE Transporte (
-	ID_t smallint NOT NULL , --IDENTITY(1,1)
+	ID_t smallint NOT NULL IDENTITY(1,1),
 	Bilhete smallint NOT NULL,
 	Companhia varchar(64) CHECK  (Companhia like '[a-Z][a-Z]%'),
 	Constraint Pk_ID PRIMARY KEY (ID_t)
@@ -75,7 +75,7 @@ CREATE TABLE Tipo_Transporte (
 );
 
 CREATE TABLE Etapas (
-	N_Etapa tinyint NOT NULL,
+	N_Etapa tinyint NOT NULL IDENTITY(1,1),
 	Preco decimal(10, 2) NOT NULL,
 	Origem varchar(64) NOT NULL,
 	Destino varchar(64) NOT NULL,
@@ -119,6 +119,11 @@ CREATE TABLE Recibo (
 	Constraint Pk_Num_Recibo PRIMARY KEY (Num_Recibo),
 	CONSTRAINT fk_N_Reserva FOREIGN KEY(N_Reserva_fk) REFERENCES Reserva(N_Reserva)
 );
+
+
+
+
+--Já não é necessário
 
 --ALTER TABLE Recibo
 	--ADD CONSTRAINT fk_N_Reserva FOREIGN KEY(N_Reserva_fk) REFERENCES Reserva(N_Reserva);
