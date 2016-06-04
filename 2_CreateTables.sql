@@ -43,7 +43,7 @@ CREATE TABLE Pessoa_Singular (
 );
 
 CREATE TABLE Empresa (
-	NRegisto smallint NOT NULL CHECK( NRegisto<200000),
+	NRegisto smallint NOT NULL IDENTITY(1,1) CHECK( NRegisto<200000) ,
 	Nome varCHAR(128),
 	Capital_Social int,
 	Nif3 INT NOT NULL,
