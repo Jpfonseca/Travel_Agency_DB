@@ -20,7 +20,6 @@ GO
 DROP PROC sp_insertFuncionario; 
 GO
 CREATE PROC sp_insertFuncionario
-	@numfunc smallint,
 	@cc	int
 WITH EXECUTE AS OWNER AS 
 
@@ -28,8 +27,7 @@ BEGIN
 	IF NOT EXISTS(SELECT CC FROM Pessoa WHERE CC= @cc)
 		RAISERROR('Não existe ninguém com o CC especificado',16,1)
 	ELSE
-		INSERT INTO Funcionario(Numero_de_funcionario,CC_funcionario) 
-		VALUES (@numfunc,@cc);
+		INSERT INTO Funcionario(CC_funcionario) VALUES (@cc);
 END
 
 --EXECUTE sp_insertFuncionario 1231,12346
@@ -42,11 +40,11 @@ GO
 
 CREATE PROCEDURE sp_insertPosto_Venda
 
-	@Nbalcao smallint
+	--@Nbalcao smallint
 WITH EXECUTE AS OWNER AS
 BEGIN 
 	
-	INSERT INTO Posto_Venda(N_Balcao) VALUES (@Nbalcao);
+	INSERT INTO Posto_Venda DEFAULT VALUES;-- VALUES (@Nbalcao);
 END
 
 --EXECUTE sp_insertPosto_Venda 7;
@@ -110,7 +108,6 @@ GO
 DROP PROCEDURE sp_insertEmpresa
 GO
 CREATE PROCEDURE sp_insertEmpresa
-	@NRegisto int,
 	@Nome varchar(40),
 	@CapitalSocial int,
 	@Nif int
@@ -119,8 +116,8 @@ BEGIN
 	IF NOT EXISTS(SELECT Nif FROM Cliente WHERE Nif=@Nif)
 		RAISERROR('O Cliente em questão não existe',16,1);
 	ELSE
-		INSERT INTO Empresa(NRegisto,Nome,Capital_Social,Nif3)
-		 VALUES (@NRegisto,@Nome,@CapitalSocial,@Nif)
+		INSERT INTO Empresa(Nome,Capital_Social,Nif3)
+		 VALUES (@Nome,@CapitalSocial,@Nif)
 END
 
 --EXECUTE sp_insertEmpresa 15151, 'Cenas',551,185848846
@@ -129,15 +126,14 @@ GO
 DROP PROCEDURE sp_insertItinerario_de_Viagem
 GO
 CREATE PROCEDURE sp_insertItinerario_de_Viagem 
-	@Id_v smallint,
 	@Partida varchar(50),
 	@Destino varchar(50),
 	@Date DATE
 
 WITH EXECUTE AS OWNER AS
 BEGIN
-	INSERT INTO Itinerario_da_Viagem(ID_v,Local_Partida,Local_Destino,Hora_partida_origem) 
-	VALUES(@Id_v, @Partida,@Destino,@Date)
+	INSERT INTO Itinerario_da_Viagem(Local_Partida,Local_Destino,Hora_partida_origem) 
+	VALUES(@Partida,@Destino,@Date)
 
 END
 
@@ -145,17 +141,16 @@ END
 
 
 GO 
-DROP PROCEDURE sp_insertTransporte
+DROP PROCEDURE	sp_insertTransporte
 GO
 CREATE PROCEDURE sp_insertTransporte
-	@Id_t smallint,
-	@Preco smallint,
+	@Bilhete smallint,
 	@Companhia varchar(50)
 
 WITH EXECUTE AS OWNER AS
 BEGIN
-	INSERT INTO Itinerario_da_Viagem(ID_v,Local_Partida,Local_Destino,Hora_partida_origem) 
-	VALUES(@Id_v, @Partida,@Destino,@Date)
+	INSERT INTO Transporte(Bilhete,Companhia) 
+	VALUES(@Bilhete,@Companhia)
 
 END
 
@@ -166,7 +161,6 @@ DROP PROCEDURE sp_insertTipotrans
 GO
 CREATE PROCEDURE sp_insertTipotrans
 	@Id_tipo smallint,
-	@Id_trans smallint,
 	@Designacao varchar(40)
 WITH EXECUTE AS OWNER AS
 BEGIN
@@ -174,7 +168,7 @@ BEGIN
 		RAISERROR('O Transporte em questão não existe',16,1);
 	ELSE
 		INSERT INTO Tipo_Transporte(ID_Tipo_Transporte,ID_transporte_fk,Designacao)
-		 VALUES (@Id_tipo,@Id_trans,@Designacao)
+		 VALUES (@Id_tipo,@Id_tipo,@Designacao)
 END
 
 --EXECUTE sp_insertTipotrans 4,4,'ASDASD0'
@@ -183,7 +177,6 @@ GO
 DROP PROCEDURE sp_insertEtapas
 GO
 CREATE PROCEDURE sp_insertEtapas
-	@Netapa tinyint,
 	@Preco decimal,
 	@Origem varchar(40),
 	@Destino varchar(40),
@@ -197,7 +190,8 @@ BEGIN
 	IF NOT EXISTS(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=@IDv)
 		RAISERROR('O Itinerario em questão não existe',16,1);
 	ELSE
-		INSERT INTO Etapas(N_Etapa,Preco,Origem,Destino,Hora_de_Partida,ID_transporte_fk1,ID_itinerario_fk1) VALUES(@Netapa,@Preco,@Origem,@Destino,@Data,@Idt,@IDv);
+		INSERT INTO Etapas(Preco,Origem,Destino,Hora_de_Partida,ID_transporte_fk1,ID_itinerario_fk1) 
+		VALUES(@Preco,@Origem,@Destino,@Data,@Idt,@IDv);
 END
 
 
@@ -217,7 +211,7 @@ BEGIN
 	IF NOT EXISTS (SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=@Itinerario_fk)
 		RAISERROR('O Itinerário nao existe',16,1);
 	ELSE
-		INSERT INTO Reserva VALUES (@Postovenda,@Nif,@Itinerario_fk);
+		INSERT INTO Reserva(Posto_venda_fk,Nif_Cliente_fk,Itinerario_fk) VALUES (@Postovenda,@Nif,@Itinerario_fk);
 END
 
 --EXECUTE sp_insertReserva 12, 4,45
@@ -241,29 +235,6 @@ BEGIN
 END
 
 --EXECUTE sp_insertEstadia 'Street Random 14', 'Cennas',161,4,4
-
---SELECT * FROM Recibo
-
---GO 
---DROP PROCEDURE sp_insertRecibo
---GO
---CREATE PROCEDURE sp_insertRecibo
---	@NRecibo int ,
---	@NifRecibo int,
---	@Preco float,
---	@Data DATE,
---	@NReserva int
---WITH EXECUTE AS OWNER AS
---BEGIN
---	IF NOT EXISTS (SELECT N_Reserva FROM Reserva WHERE N_Reserva=@NReserva)
---		RAISERROR('O Itinerário nao existe',16,1);
---	ELSE
---		INSERT INTO Recibo(Num_Recibo,Nif_Recibo,Valor,Data,N_Reserva_fk) VALUES (@NRecibo ,@NifRecibo,@Preco,@Data,@NReserva);
---END
-
-----EXECUTE sp_insertRecibo 223454988,521,200151,'2009-02-09',4
-
---SELECT * FROM Recibo
 
 GO 
 DROP PROCEDURE sp_insertRecibo
@@ -291,11 +262,6 @@ BEGIN
 				PRINT('Recibo com Itinerario e sem Estadia');
 				SELECT @Preco=SUM(Preco)  FROM Etapas INNER JOIN Itinerario_da_Viagem ON Etapas.ID_itinerario_fk1=Itinerario_da_Viagem.ID_v INNER JOIN Reserva ON Itinerario_da_Viagem.ID_v=Reserva.Itinerario_fk WHERE N_Reserva = @NReserva;
 			END
-		IF NOT EXISTS(SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=@NReserva)AND EXISTS(SELECT N_Reserva_fk FROM Estadia WHERE N_Reserva_fk=@NReserva)
-			BEGIN
-				PRINT('Recibo sem Itinerario e com Estadia')
-				SELECT @Preco=@Preco+SUM(Custo) FROM Estadia INNER JOIN Reserva ON Estadia.N_Reserva_fk=Reserva.N_Reserva WHERE N_Reserva = @NReserva;
-			END
 		INSERT INTO Recibo(Nif_Recibo,Valor,Data,N_Reserva_fk) VALUES (@NifRecibo,@Preco,@Data,@NReserva);
 END
 
@@ -303,3 +269,31 @@ END
 
 
 --SELECT *FROM Recibo WHERE N_Reserva_fk=1
+
+
+
+
+
+
+--SELECT * FROM Recibo
+
+--GO 
+--DROP PROCEDURE sp_insertRecibo
+--GO
+--CREATE PROCEDURE sp_insertRecibo
+--	@NRecibo int ,
+--	@NifRecibo int,
+--	@Preco float,
+--	@Data DATE,
+--	@NReserva int
+--WITH EXECUTE AS OWNER AS
+--BEGIN
+--	IF NOT EXISTS (SELECT N_Reserva FROM Reserva WHERE N_Reserva=@NReserva)
+--		RAISERROR('O Itinerário nao existe',16,1);
+--	ELSE
+--		INSERT INTO Recibo(Num_Recibo,Nif_Recibo,Valor,Data,N_Reserva_fk) VALUES (@NRecibo ,@NifRecibo,@Preco,@Data,@NReserva);
+--END
+
+----EXECUTE sp_insertRecibo 223454988,521,200151,'2009-02-09',4
+
+--SELECT * FROM Recibo
