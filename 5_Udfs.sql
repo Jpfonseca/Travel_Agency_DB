@@ -189,6 +189,18 @@ CREATE FUNCTION udf_getItinerarioporTransporte(@Transporte smallint) RETURNS TAB
 			LEFT JOIN Tipo_Transporte ON ID_transporte_fk=ID_transporte_fk1 WHERE ID_t=@Transporte);
 
 GO
+
+DROP FUNCTION udf_getTransporteporLocaiseHora;
+GO
+CREATE FUNCTION udf_getTransporteporLocaiseHora(@LocalPartida varchar(40), @LocalDestino varchar(40),@Hora DATE) RETURNS TABLE AS
+
+	RETURN (SELECT Designacao,Companhia FROM Itinerario_da_Viagem LEFT JOIN Etapas ON ID_itinerario_fk1=ID_v 
+			LEFT JOIN Transporte ON ID_transporte_fk1=ID_t 
+			LEFT JOIN Tipo_Transporte ON ID_transporte_fk=ID_transporte_fk1 
+			WHERE Hora_partida_origem=@Hora AND Local_Partida=@LocalPartida AND Local_Destino=@LocalDestino);
+
+GO
+
  --SELECT * FROM dbo.udf_getVendaspPosto(9);
  --SELECT * FROM dbo.udf_getVendaspPosto(10);
 --Ajudas
@@ -217,4 +229,9 @@ GO
 
 --SELECT ID_v,N_Etapa,Local_Partida,Local_Destino,Origem,Destino,Hora_de_Partida,Designacao,Companhia FROM Itinerario_da_Viagem LEFT JOIN Etapas ON ID_itinerario_fk1=ID_v 
 --			LEFT JOIN Transporte ON ID_transporte_fk1=ID_t 
---			LEFT JOIN Tipo_Transporte ON ID_transporte_fk=ID_transporte_fk1 WHERE ID_t=4
+--			LEFT JOIN Tipo_Transporte ON ID_transporte_fk=ID_transporte_fk1 WHERE Hora_partida_origem='2009-02-09' AND Local_Partida='Aveiro'AND Local_Destino='Régua'
+
+
+--SELECT Designacao,Companhia FROM Itinerario_da_Viagem LEFT JOIN Etapas ON ID_itinerario_fk1=ID_v 
+--			LEFT JOIN Transporte ON ID_transporte_fk1=ID_t 
+--			LEFT JOIN Tipo_Transporte ON ID_transporte_fk=ID_transporte_fk1 WHERE Hora_partida_origem='2009-02-09' AND Local_Partida='Aveiro'AND Local_Destino='Régua'
