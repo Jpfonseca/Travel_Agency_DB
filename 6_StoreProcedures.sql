@@ -1,8 +1,8 @@
 use Sistema;
 
-
---------------------INSERTS ---------
-
+---------------------------------------------
+--------------------INSERTS -----------------
+---------------------------------------------
 GO
 DROP PROC sp_insertPessoa;
 GO
@@ -265,35 +265,365 @@ BEGIN
 		INSERT INTO Recibo(Nif_Recibo,Valor,Data,N_Reserva_fk) VALUES (@NifRecibo,@Preco,@Data,@NReserva);
 END
 
---EXECUTE sp_insertRecibo 222154988,54545,'2009-02-09',1;
+
+---------------------------------------------
+-------------------- DELETE -----------------
+---------------------------------------------
 
 
---SELECT *FROM Recibo WHERE N_Reserva_fk=1
+GO 
+DROP PROCEDURE sp_deleteReserva
+GO
+CREATE PROCEDURE sp_deleteReserva
+	@NReserva int
+WITH EXECUTE AS OWNER AS
+BEGIN
+	IF NOT EXISTS (SELECT N_Reserva FROM Reserva WHERE N_Reserva=@NReserva)
+		RAISERROR('A Reserva nao existe',16,1);
+	ELSE
+		DELETE FROM Reserva WHERE N_Reserva=@NReserva;
+END
 
 
 
+GO
+DROP PROCEDURE sp_deleteEstadia
+GO
+CREATE PROCEDURE sp_deleteEstadia
+	@ID_Estadia smallint,
+	@N_Reserva int
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT ID_Estadia, N_Reserva_fk FROM Estadia WHERE ID_Estadia=@ID_Estadia AND N_Reserva_fk=@N_Reserva ) 
+		RAISERROR('Não existe nenhum local de estadia com os atributos dados ',16,1);
+	ELSE
+		DELETE FROM Estadia WHERE ID_Estadia=@ID_Estadia AND N_Reserva_fk=@N_Reserva
+END
 
 
 
---SELECT * FROM Recibo
+GO
+DROP PROCEDURE sp_deleteEtapa
+GO
+CREATE PROCEDURE sp_deleteEtapa
+	@NEtapa tinyint,
+	@IDitinerario smallint,
+	@IDtransporte smallint
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT N_Etapa, ID_itinerario_fk1,ID_transporte_fk1 FROM Etapas WHERE N_Etapa=@NEtapa AND ID_itinerario_fk1=@IDitinerario AND ID_transporte_fk1=@IDtransporte)
+		RAISERROR('A Etapa em questão não existe',16,1);
 
---GO 
---DROP PROCEDURE sp_insertRecibo
---GO
---CREATE PROCEDURE sp_insertRecibo
---	@NRecibo int ,
---	@NifRecibo int,
---	@Preco float,
---	@Data DATE,
---	@NReserva int
---WITH EXECUTE AS OWNER AS
---BEGIN
---	IF NOT EXISTS (SELECT N_Reserva FROM Reserva WHERE N_Reserva=@NReserva)
---		RAISERROR('O Itinerário nao existe',16,1);
---	ELSE
---		INSERT INTO Recibo(Num_Recibo,Nif_Recibo,Valor,Data,N_Reserva_fk) VALUES (@NRecibo ,@NifRecibo,@Preco,@Data,@NReserva);
---END
+	ELSE
+		DELETE FROM Etapas WHERE N_Etapa=@NEtapa AND ID_itinerario_fk1=@IDitinerario AND ID_transporte_fk1=@IDtransporte;
+END		
 
-----EXECUTE sp_insertRecibo 223454988,521,200151,'2009-02-09',4
 
---SELECT * FROM Recibo
+GO
+DROP PROCEDURE sp_deleteTransporte
+GO
+CREATE PROCEDURE sp_deleteTransporte
+	@Id_tipo smallint
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT ID_t FROM Transporte WHERE ID_t=@Id_tipo)
+		RAISERROR('O transporte em questão não existe',16,1);
+
+	ELSE
+		DELETE FROM Transporte WHERE ID_t=@Id_tipo;
+END		
+
+
+GO
+DROP PROCEDURE sp_deleteItinerario_de_Viagem
+GO
+CREATE PROCEDURE sp_deleteItinerario_de_Viagem
+	@IDv smallint
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=@IDv)
+		RAISERROR('O Itinerario Em questão não existe',16,1)
+	ELSE
+		DELETE FROM Itinerario_da_Viagem WHERE ID_v=@IDv;
+END		
+
+
+GO
+DROP PROCEDURE sp_deleteEmpresa
+GO
+CREATE PROCEDURE sp_deleteEmpresa
+	@Nregisto smallint
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT NRegisto FROM Empresa WHERE NRegisto=@Nregisto)
+		RAISERROR('A Empresa em questão não existe',16,1);
+
+	ELSE
+		DELETE FROM Empresa WHERE  NRegisto=@Nregisto;
+END		
+
+
+GO
+DROP PROCEDURE sp_deletePessoaSingular
+GO
+CREATE PROCEDURE sp_deletePessoaSingular
+	@cc int
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT CC_Pessoa_Singular FROM Pessoa_Singular WHERE CC_Pessoa_Singular = @cc)
+		RAISERROR('O Cliente em questão não existe',16,1);
+
+	ELSE
+		DELETE FROM Pessoa_Singular WHERE CC_Pessoa_Singular=@cc;
+END		
+
+
+GO
+DROP PROCEDURE sp_deleteTrabalha
+GO
+CREATE PROCEDURE sp_deleteTrabalha
+	@Nbalcao smallint,
+	@NumFuncionario smallint
+WITH EXECUTE AS OWNER AS
+BEGIN 
+		IF NOT EXISTS(SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=@Nbalcao)
+		RAISERROR('O Numero do Balcao nao existe', 16,1);
+	IF NOT EXISTS(SELECT Numero_de_funcionario FROM Funcionario WHERE Numero_de_funcionario=@Numfuncionario )
+		RAISERROR('O Numerro de funcionario nao existe',16,1);
+
+	ELSE
+		DELETE FROM Trabalha WHERE N_Balcao_fk=@Nbalcao AND Num_Funcionario_fk=@NumFuncionario;
+END		
+
+
+GO
+DROP PROCEDURE sp_deleteCliente
+GO
+CREATE PROCEDURE sp_deleteCliente
+	@Nif int
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT Nif FROM Cliente WHERE Nif=@Nif)
+		RAISERROR('O Cliente não existe',16,1);
+
+	ELSE
+		DELETE FROM Cliente WHERE Nif=@Nif;
+END		
+
+
+GO
+DROP PROCEDURE sp_deletePosto_Venda
+GO
+CREATE PROCEDURE sp_deletePosto_Venda
+	@NBalcao smallint
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=@NBalcao )
+		RAISERROR('O Balcao seleccionado não existe',16,1);
+
+	ELSE
+		DELETE FROM  Posto_Venda WHERE N_Balcao=@NBalcao;
+END		
+
+
+GO
+DROP PROCEDURE sp_deleteFuncionario
+GO
+CREATE PROCEDURE sp_deleteFuncionario
+	@Nfuncionario smallint,
+	@cc_func int
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT Numero_de_funcionario FROM Funcionario WHERE Numero_de_funcionario=@Nfuncionario AND CC_funcionario=@cc_func)
+		RAISERROR('O Funcionario não existe',16,1);
+
+	ELSE
+		DELETE FROM Funcionario WHERE Numero_de_funcionario=@Nfuncionario AND CC_funcionario=@cc_func;
+END		
+
+
+GO
+DROP PROCEDURE sp_deletePessoa
+GO
+CREATE PROCEDURE sp_deletePessoa
+	@cc_pessoa int
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT CC FROM Pessoa WHERE CC=@cc_pessoa)
+		RAISERROR('A pessoa em questão não existe',16,1)
+
+	ELSE
+		DELETE FROM Pessoa WHERE CC=@cc_pessoa
+END		
+
+
+
+---------------------------------------------
+-------------------- UPDATE -----------------
+---------------------------------------------
+
+
+GO 
+DROP PROCEDURE sp_updateReserva
+GO
+CREATE PROCEDURE sp_updateReserva
+	@NReserva int,
+	@NifCliente int
+WITH EXECUTE AS OWNER AS
+BEGIN
+	IF NOT EXISTS (SELECT N_Reserva FROM Reserva WHERE N_Reserva=@NReserva)
+		RAISERROR('A Reserva nao existe',16,1);
+	ELSE
+		UPDATE Reserva SET Nif_Cliente_fk=@NifCliente WHERE N_Reserva=@NReserva;
+END
+
+
+
+GO
+DROP PROCEDURE sp_updateEstadia
+GO
+CREATE PROCEDURE sp_updateEstadia
+	@ID_Estadia smallint,
+	@N_Reserva int,
+	@Custo float
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT ID_Estadia, N_Reserva_fk FROM Estadia WHERE ID_Estadia=@ID_Estadia AND N_Reserva_fk=@N_Reserva ) 
+		RAISERROR('Não existe nenhum local de estadia com os atributos dados ',16,1);
+	ELSE
+		UPDATE Estadia SET Custo=@Custo WHERE ID_Estadia=@ID_Estadia AND N_Reserva_fk=@N_Reserva
+END
+
+
+
+GO
+DROP PROCEDURE sp_updateEtapa
+GO
+CREATE PROCEDURE sp_updateEtapa
+	@NEtapa tinyint,
+	@IDitinerario smallint,
+	@IDtransporte smallint,
+	@Horas Date
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT N_Etapa, ID_itinerario_fk1,ID_transporte_fk1 FROM Etapas WHERE N_Etapa=@NEtapa AND ID_itinerario_fk1=@IDitinerario AND ID_transporte_fk1=@IDtransporte)
+		RAISERROR('A Etapa em questão não existe',16,1);
+
+	ELSE
+		UPDATE Etapas SET Hora_de_Partida=@Horas WHERE N_Etapa=@NEtapa AND ID_itinerario_fk1=@IDitinerario AND ID_transporte_fk1=@IDtransporte;
+END		
+
+
+GO
+DROP PROCEDURE sp_updateTransporte
+GO
+CREATE PROCEDURE sp_updateTransporte
+	@Id_tipo smallint,
+	@Bilhete smallint
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT ID_t FROM Transporte WHERE ID_t=@Id_tipo)
+		RAISERROR('O transporte em questão não existe',16,1);
+
+	ELSE
+		UPDATE Transporte SET Bilhete=@Bilhete WHERE ID_t=@Id_tipo;
+END		
+
+
+GO
+DROP PROCEDURE sp_updateItinerario_de_Viagem
+GO
+CREATE PROCEDURE sp_updateItinerario_de_Viagem
+	@IDv smallint,
+	@hora date
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT ID_v FROM Itinerario_da_Viagem WHERE ID_v=@IDv)
+		RAISERROR('O Itinerario Em questão não existe',16,1)
+	ELSE
+		UPDATE Itinerario_da_Viagem SET Hora_partida_origem=@hora WHERE ID_v=@IDv;
+END		
+
+
+GO
+DROP PROCEDURE sp_updateEmpresa
+GO
+CREATE PROCEDURE sp_updateEmpresa
+	@Nregisto smallint,
+	@CapitalSocial int
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT NRegisto FROM Empresa WHERE NRegisto=@Nregisto)
+		RAISERROR('A Empresa em questão não existe',16,1);
+
+	ELSE
+		UPDATE Empresa SET Capital_Social=@CapitalSocial WHERE  NRegisto=@Nregisto;
+END		
+
+
+GO
+DROP PROCEDURE sp_updateTrabalha
+GO
+CREATE PROCEDURE sp_updateTrabalha
+	@Nbalcao smallint,
+	@NumFuncionario smallint
+WITH EXECUTE AS OWNER AS
+BEGIN 
+		IF NOT EXISTS(SELECT N_Balcao FROM Posto_Venda WHERE N_Balcao=@Nbalcao)
+			RAISERROR('O Numero do Balcao nao existe', 16,1);
+		IF NOT EXISTS(SELECT Numero_de_funcionario FROM Funcionario WHERE Numero_de_funcionario=@Numfuncionario )
+			RAISERROR('O Numerro de funcionario nao existe',16,1);
+
+	ELSE
+		UPDATE Trabalha SET Num_Funcionario_fk=@NumFuncionario WHERE N_Balcao_fk=@Nbalcao;
+END		
+
+
+GO
+DROP PROCEDURE sp_updateCliente
+GO
+CREATE PROCEDURE sp_updateCliente
+	@Nif int,
+	@Contacto int
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT Nif FROM Cliente WHERE Nif=@Nif)
+		RAISERROR('O Cliente não existe',16,1);
+
+	ELSE
+		UPDATE Cliente SET Contacto_telefonico=@Contacto WHERE Nif=@Nif;
+END		
+
+
+GO
+DROP PROCEDURE sp_updateFuncionario
+GO
+CREATE PROCEDURE sp_updateFuncionario
+	@Nfuncionario smallint,
+	@cc_func int
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT Numero_de_funcionario FROM Funcionario WHERE Numero_de_funcionario=@Nfuncionario)
+		RAISERROR('O Funcionario não existe',16,1);
+	IF NOT EXISTS(SELECT CC FROM Pessoa WHERE CC= @cc_func)
+		RAISERROR('A Pessoa não existe',16,1);
+	ELSE
+		UPDATE Funcionario SET CC_funcionario=@cc_func WHERE Numero_de_funcionario=@Nfuncionario;
+END		
+
+
+GO
+DROP PROCEDURE sp_updatePessoa
+GO
+CREATE PROCEDURE sp_updatePessoa
+	@cc_pessoa int,
+	@Nome varchar(40)
+WITH EXECUTE AS OWNER AS
+BEGIN 
+	IF NOT EXISTS (SELECT CC FROM Pessoa WHERE CC=@cc_pessoa)
+		RAISERROR('A pessoa em questão não existe',16,1)
+
+	ELSE
+		UPDATE Pessoa SET Nome=@Nome WHERE CC=@cc_pessoa
+END		
+
