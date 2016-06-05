@@ -153,6 +153,44 @@ CREATE FUNCTION udf_getVendaspPosto (@Nposto smallint) RETURNS TABLE   AS
 			WHERE Posto_venda_fk=@Nposto );
 GO
 
+DROP FUNCTION udf_getPostosdeVenda ;
+GO
+CREATE FUNCTION udf_getPostosdeVenda (@Nposto smallint) RETURNS TABLE   AS
+
+	RETURN(SELECT * FROM Posto_Venda );
+GO
+
+DROP FUNCTION udf_getItinerarioseTransporte;
+GO
+CREATE FUNCTION udf_getItinerarioseTransporte(@IDitinerario smallint) RETURNS TABLE AS
+
+	RETURN (SELECT ID_v,Local_Partida,Local_Destino,Origem,Destino,Hora_de_Partida,Designacao,Companhia FROM Itinerario_da_Viagem LEFT JOIN Etapas ON ID_itinerario_fk1=ID_v 
+			LEFT JOIN Transporte ON ID_transporte_fk1=ID_t 
+			LEFT JOIN Tipo_Transporte ON ID_transporte_fk=ID_transporte_fk1 WHERE ID_itinerario_fk1=@IDitinerario);
+
+GO
+
+DROP FUNCTION udf_getItinerarioeEtapaTransporte;
+GO
+CREATE FUNCTION udf_getItinerarioeEtapaTransporte(@IDitinerario smallint,@Netapa tinyint) RETURNS TABLE AS
+
+	RETURN (SELECT ID_v,N_Etapa,Local_Partida,Local_Destino,Origem,Destino,Hora_de_Partida,Designacao,Companhia FROM Itinerario_da_Viagem LEFT JOIN Etapas ON ID_itinerario_fk1=ID_v 
+			LEFT JOIN Transporte ON ID_transporte_fk1=ID_t 
+			LEFT JOIN Tipo_Transporte ON ID_transporte_fk=ID_transporte_fk1 WHERE ID_itinerario_fk1=@IDitinerario AND N_Etapa=@Netapa);
+
+GO
+
+DROP FUNCTION udf_getItinerarioporTransporte;
+GO
+CREATE FUNCTION udf_getItinerarioporTransporte(@Transporte smallint) RETURNS TABLE AS
+
+	RETURN (SELECT ID_v,N_Etapa,Local_Partida,Local_Destino,Origem,Destino,Hora_de_Partida,Designacao,Companhia FROM Itinerario_da_Viagem LEFT JOIN Etapas ON ID_itinerario_fk1=ID_v 
+			LEFT JOIN Transporte ON ID_transporte_fk1=ID_t 
+			LEFT JOIN Tipo_Transporte ON ID_transporte_fk=ID_transporte_fk1 WHERE ID_t=@Transporte);
+
+GO
+ --SELECT * FROM dbo.udf_getVendaspPosto(9);
+ --SELECT * FROM dbo.udf_getVendaspPosto(10);
 --Ajudas
 
 --SELECT * FROM Pessoa;
@@ -174,3 +212,9 @@ GO
 
 
 
+--SELECT ID_v,Local_Partida,Local_Destino,Origem,Destino,Hora_de_Partida,Designacao,Companhia,ID_t FROM Itinerario_da_Viagem LEFT JOIN Etapas ON ID_itinerario_fk1=ID_v 		LEFT JOIN Transporte ON ID_transporte_fk1=ID_t 
+--	LEFT JOIN Tipo_Transporte ON ID_transporte_fk=ID_transporte_fk1 WHERE ID_itinerario_fk1=1 AND N_Etapa=1
+
+--SELECT ID_v,N_Etapa,Local_Partida,Local_Destino,Origem,Destino,Hora_de_Partida,Designacao,Companhia FROM Itinerario_da_Viagem LEFT JOIN Etapas ON ID_itinerario_fk1=ID_v 
+--			LEFT JOIN Transporte ON ID_transporte_fk1=ID_t 
+--			LEFT JOIN Tipo_Transporte ON ID_transporte_fk=ID_transporte_fk1 WHERE ID_t=4
