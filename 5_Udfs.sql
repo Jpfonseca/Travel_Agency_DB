@@ -85,11 +85,81 @@ CREATE FUNCTION udf_getWorksOn () RETURNS TABLE  AS
 					LEFT JOIN Posto_Venda ON N_Balcao_fk=N_Balcao);
 
 
-SELECT * FROM Pessoa;
-SELECT * FROM Funcionario;
-SELECT * FROM Posto_Venda;
-SELECT * FROM Cliente;
-SELECT * FROM Trabalha;
+GO 
+DROP FUNCTION udf_getListaPessoas ;
+GO
+CREATE FUNCTION udf_getListaPessoas () RETURNS  TABLE AS
+	RETURN(SELECT *FROM Pessoa);
+
+GO 
+DROP FUNCTION udf_getPrecoReservasemEstadia ;
+GO
+CREATE FUNCTION udf_getPrecoReservasemEstadia (@NReserva int) RETURNS INT AS
+BEGIN
+DECLARE @Preco INT;
+	SELECT @Preco=SUM(Preco) FROM Etapas 
+				INNER JOIN Itinerario_da_Viagem ON Etapas.ID_itinerario_fk1=Itinerario_da_Viagem.ID_v
+				INNER JOIN Reserva ON Itinerario_da_Viagem.ID_v=Reserva.Itinerario_fk WHERE N_Reserva=@NReserva
+	RETURN @Preco;
+END
+GO 
+
+DROP FUNCTION udf_getPrecoEstadia ;
+GO
+CREATE FUNCTION udf_getPrecoEstadia (@NReserva int) RETURNS INT AS
+BEGIN	
+	DECLARE @Preco int;
+	SELECT @Preco=SUM(Custo) FROM Estadia INNER JOIN Reserva ON Estadia.N_Reserva_fk=Reserva.N_Reserva WHERE N_Reserva =@NReserva;
+
+	RETURN @Preco;
+END
+
+GO
+DROP FUNCTION udf_getNumReservaspCliente ;
+GO
+CREATE FUNCTION udf_getNumReservaspCliente (@NifCliente int) RETURNS INT  AS
+BEGIN
+	DECLARE @NumReservas int;
+	SELECT @NumReservas=COUNT(*) FROM Reserva WHERE Nif_Cliente_fk=@NifCliente;
+	RETURN @NumReservas;
+END
+
+GO
+DROP FUNCTION udf_getNumEtapasItinerario ;
+GO
+CREATE FUNCTION udf_getNumEtapasItinerario (@NumItinerario int) RETURNS INT  AS
+BEGIN
+	DECLARE @NumEtapas int;
+	SELECT @NumEtapas=COUNT(*) FROM Etapas WHERE ID_itinerario_fk1=@NumItinerario;
+	RETURN @NumEtapas;
+END
+
+GO
+DROP FUNCTION udf_getNumFuncionarios ;
+GO
+CREATE FUNCTION udf_getNumFuncionarios () RETURNS INT  AS
+BEGIN
+	DECLARE @Numfuncionarios INT;
+	SELECT @Numfuncionarios=COUNT(*) FROM Funcionario ;
+	RETURN @Numfuncionarios ;
+END
+
+GO
+DROP FUNCTION udf_getVendaspPosto ;
+GO
+CREATE FUNCTION udf_getVendaspPosto (@Nposto smallint) RETURNS TABLE   AS
+
+	RETURN(SELECT Posto_venda_fk, N_Reserva, Custo FROM Estadia INNER JOIN Reserva ON Estadia.N_Reserva_fk=Reserva.N_Reserva 
+			WHERE Posto_venda_fk=@Nposto );
+GO
+
+--Ajudas
+
+--SELECT * FROM Pessoa;
+--SELECT * FROM Funcionario;
+--SELECT * FROM Posto_Venda;
+--SELECT * FROM Cliente;
+--SELECT * FROM Trabalha;
 --SELECT * FROM Pessoa_Singular;
 --SELECT * FROM Empresa;
 --SELECT * FROM Itinerario_da_Viagem;
@@ -101,19 +171,6 @@ SELECT * FROM Trabalha;
 --SELECT * FROM Estadia;
 --SELECT * FROM Recibo;
 
-
-
---SELECT SUM(Preco) Preço
---	FROM Etapas
---				INNER JOIN Itinerario_da_Viagem ON Etapas.ID_itinerario_fk1=Itinerario_da_Viagem.ID_v
---				INNER JOIN Reserva ON Itinerario_da_Viagem.ID_v=Reserva.Itinerario_fk 
---	WHERE N_Reserva = 1;
-
---SELECT SUM(Custo) Preço	FROM Estadia INNER JOIN Reserva ON Estadia.N_Reserva_fk=Reserva.N_Reserva WHERE N_Reserva = 1;
-
---SELECT * FROM Estadia WHERE N_Reserva_fk = 1;
-
---SELECT ID_v FROM Itinerario_da_Viagem ,Reserva WHERE ID_v=Itinerario_fk
 
 
 
