@@ -39,7 +39,7 @@ CREATE TABLE Pessoa_Singular (
 	CC_Pessoa_Singular INT NOT NULL,
 	Nif2 INT NOT NULL,
 	CONSTRAINT Fk_CC_Singular FOREIGN KEY (CC_Pessoa_Singular) REFERENCES Pessoa(CC),
-	CONSTRAINT Fk_Nif2 FOREIGN KEY (Nif2) REFERENCES Cliente(Nif)
+	CONSTRAINT Fk_Nif2 FOREIGN KEY (Nif2) REFERENCES Cliente(Nif) ON DELETE CASCADE
 );
 
 CREATE TABLE Empresa (
@@ -48,7 +48,7 @@ CREATE TABLE Empresa (
 	Capital_Social int,
 	Nif3 INT NOT NULL,
 	Constraint Pk_NRegisto PRIMARY KEY (NRegisto),
-	CONSTRAINT Fk_Nif_E FOREIGN KEY (Nif3) REFERENCES Cliente(Nif)
+	CONSTRAINT Fk_Nif_E FOREIGN KEY (Nif3) REFERENCES Cliente(Nif) ON DELETE CASCADE
 );
 
 CREATE TABLE Itinerario_da_Viagem (
@@ -71,7 +71,7 @@ CREATE TABLE Tipo_Transporte (
 	ID_transporte_fk smallint NOT NULL,
 	Designacao varchar(64) CHECK  (Designacao like '[a-Z][a-Z]%') ,
 	Constraint Pk_ID_Tipo_Transporte PRIMARY KEY (ID_Tipo_Transporte),
-	CONSTRAINT Fk_ID_transporte FOREIGN KEY (ID_transporte_fk) REFERENCES Transporte(ID_t)
+	CONSTRAINT Fk_ID_transporte FOREIGN KEY (ID_transporte_fk) REFERENCES Transporte(ID_t) ON DELETE CASCADE
 );
 
 CREATE TABLE Etapas (
@@ -83,8 +83,8 @@ CREATE TABLE Etapas (
 	ID_transporte_fk1 smallint NOT NULL,
 	ID_itinerario_fk1 smallint NOT NULL,
 	CONSTRAINT Pk_N_Etapa PRIMARY KEY (N_Etapa,ID_itinerario_fk1),
-	CONSTRAINT FK_ID_Itinerario FOREIGN KEY (ID_itinerario_fk1) REFERENCES Itinerario_da_Viagem(ID_v),
-	CONSTRAINT FK_ID_transporte_1 FOREIGN KEY (ID_transporte_fk1) REFERENCES Transporte(ID_t)
+	CONSTRAINT FK_ID_Itinerario FOREIGN KEY (ID_itinerario_fk1) REFERENCES Itinerario_da_Viagem(ID_v)ON DELETE CASCADE,
+	CONSTRAINT FK_ID_transporte_1 FOREIGN KEY (ID_transporte_fk1) REFERENCES Transporte(ID_t)ON DELETE CASCADE
 );
 
 CREATE TABLE Reserva (
@@ -95,7 +95,7 @@ CREATE TABLE Reserva (
 	Constraint Pk_N_Reserva PRIMARY KEY (N_Reserva),
 	CONSTRAINT Fk_Posto_venda FOREIGN KEY (Posto_venda_fk) REFERENCES Posto_Venda(N_Balcao),
 	CONSTRAINT Fk_Nif_Cliente FOREIGN KEY (Nif_Cliente_fk) REFERENCES Cliente(Nif),
-	CONSTRAINT Fk_Local FOREIGN KEY (Itinerario_fk) REFERENCES Itinerario_da_Viagem(ID_v)
+	CONSTRAINT Fk_Local FOREIGN KEY (Itinerario_fk) REFERENCES Itinerario_da_Viagem(ID_v)ON DELETE CASCADE
 );
 
 CREATE TABLE Estadia (
