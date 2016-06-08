@@ -230,9 +230,9 @@ Partial Class Form1
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(623, 393)
-        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel4)
+        Me.Controls.Add(Me.Panel1)
         Me.Name = "Form1"
         Me.Text = "Reservas"
         Me.Panel1.ResumeLayout(False)
