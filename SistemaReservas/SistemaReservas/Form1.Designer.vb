@@ -29,7 +29,6 @@ Partial Class Form1
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Button5 = New System.Windows.Forms.Button()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.Label6 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.ComboBox5 = New System.Windows.Forms.ComboBox()
         Me.ComboBox2 = New System.Windows.Forms.ComboBox()
@@ -104,7 +103,6 @@ Partial Class Form1
         '
         'Panel3
         '
-        Me.Panel3.Controls.Add(Me.Label6)
         Me.Panel3.Controls.Add(Me.Label5)
         Me.Panel3.Controls.Add(Me.ComboBox5)
         Me.Panel3.Controls.Add(Me.ComboBox2)
@@ -122,15 +120,6 @@ Partial Class Form1
         Me.Panel3.Size = New System.Drawing.Size(623, 393)
         Me.Panel3.TabIndex = 1
         Me.Panel3.Visible = False
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(27, 179)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(178, 13)
-        Me.Label6.TabIndex = 21
-        Me.Label6.Text = "Transportes disponiveis para a data:"
         '
         'Label5
         '
@@ -230,9 +219,9 @@ Partial Class Form1
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(623, 393)
-        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel4)
+        Me.Controls.Add(Me.Panel1)
         Me.Name = "Form1"
         Me.Text = "Reservas"
         Me.Panel1.ResumeLayout(False)
@@ -256,7 +245,6 @@ Partial Class Form1
     Friend WithEvents DateTimePicker1 As DateTimePicker
     Friend WithEvents Label5 As Label
     Friend WithEvents ComboBox5 As ComboBox
-    Friend WithEvents Label6 As Label
     Friend WithEvents ComboBox2 As ComboBox
     Friend WithEvents ComboBox1 As ComboBox
     Friend WithEvents Panel4 As Panel

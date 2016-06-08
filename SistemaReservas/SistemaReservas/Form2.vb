@@ -72,4 +72,19 @@ Public Class Configurar
         TextBox3.Clear()
         TextBox4.Clear()
     End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        'apagar cliente
+        Dim command As SqlCommand = New SqlCommand("sp_deleteCliente")
+        command.Connection = CN
+        command.CommandType = CommandType.StoredProcedure
+        command.Parameters.Add("@Nif", SqlDbType.Int).Value = TextBox6.Text
+        Try
+            command.ExecuteNonQuery()
+            MsgBox("Cliente apagado.", MsgBoxStyle.OkOnly, "Informação")
+        Catch ex As Exception
+            MsgBox("Cliente não existe.", MsgBoxStyle.Critical, "Erro")
+        End Try
+        TextBox6.Clear()
+    End Sub
 End Class

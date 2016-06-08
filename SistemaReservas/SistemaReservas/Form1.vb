@@ -149,6 +149,34 @@ Public Class Form1
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         'criar reserva
+        Dim command As SqlCommand = New SqlCommand("select * from udf_getId_vItinerario(@LocalPartida, @LocalDestino, @Hora)")
+        command.Connection = CN
+
+        command.Parameters.Add("@LocalPartida", SqlDbType.VarChar).Value = ComboBox1.SelectedText
+        command.Parameters.Add("@LocalDestino", SqlDbType.VarChar).Value = ComboBox2.SelectedText
+        command.Parameters.Add("@Hora", SqlDbType.Date).Value = DateTimePicker1.Value.Date
+
+        Try
+            Dim reader As SqlDataReader = command.ExecuteReader()
+            Dim id As Integer = reader.Read()
+            command.Dispose()
+            reader.Close()
+            Try
+                command = New SqlCommand("sp_insertReserva")
+                command.Connection = CN
+                command.Parameters.Add("@Nif", SqlDbType.Int).Value = TextBox2.Text
+                command.Parameters.Add("@postovenda", SqlDbType.SmallInt).Value = postovenda
+                command.Parameters.Add("@Itinerario_fk", SqlDbType.SmallInt).Value = id
+                command.CommandType = CommandType.StoredProcedure
+                command.ExecuteNonQuery()
+            Catch ex As Exception
+
+            End Try
+            MsgBox("Erro1", MsgBoxStyle.Critical, "Erro")
+
+            Catch ex As Exception
+                MsgBox("Erro", MsgBoxStyle.Critical, "Erro")
+        End Try
 
     End Sub
 End Class
