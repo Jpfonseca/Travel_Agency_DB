@@ -221,6 +221,17 @@ CREATE FUNCTION udf_getLocalDestino(@LocalPartida varchar(40),@Hora DATE ,@Desig
 
 GO
 
+DROP FUNCTION udf_getId_vItinerario;
+GO
+CREATE FUNCTION udf_getId_vItinerario(@LocalPartida varchar(40), @LocalDestino varchar(40),@Hora DATE) RETURNS TABLE AS
+
+	RETURN (SELECT ID_v FROM Itinerario_da_Viagem LEFT JOIN Etapas ON ID_itinerario_fk1=ID_v 
+			LEFT JOIN Transporte ON ID_transporte_fk1=ID_t 
+			LEFT JOIN Tipo_Transporte ON ID_transporte_fk=ID_transporte_fk1 
+			WHERE Hora_partida_origem=@Hora AND Local_Partida=@LocalPartida AND Local_Destino=@LocalDestino);
+
+GO
+
 
  --SELECT * FROM dbo.udf_getVendaspPosto(9);
  --SELECT * FROM dbo.udf_getVendaspPosto(10);
