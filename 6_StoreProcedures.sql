@@ -266,6 +266,28 @@ BEGIN
 END
 
 
+
+GO 
+DROP PROCEDURE sp_insertPessoaCliente
+GO
+CREATE PROCEDURE sp_insertPessoaCliente
+	@CC int,
+	@nome varchar(40),
+	@Nif int,
+	@Contacto int
+WITH EXECUTE AS OWNER AS
+BEGIN
+	IF EXISTS(SELECT CC FROM Pessoa WHERE CC=@CC)
+		RAISERROR('O Cidadão já existe', 16,1);
+	IF EXISTS(SELECT Nif FROM Cliente WHERE Nif=@Nif)
+		RAISERROR('O Cliente em questão já existe existe',16,1);
+	ELSE
+		INSERT INTO Pessoa(CC,Nome) VALUES (@CC,@nome)
+		INSERT INTO	Cliente (Nif,Contacto_telefonico) VALUES (@Nif,@Contacto)
+		INSERT INTO Pessoa_Singular(CC_Pessoa_Singular,Nif2) VALUES (@CC,@Nif)
+END
+
+
 ---------------------------------------------
 -------------------- DELETE -----------------
 ---------------------------------------------

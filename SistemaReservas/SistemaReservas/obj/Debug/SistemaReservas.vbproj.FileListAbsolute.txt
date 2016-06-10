@@ -9,3 +9,5 @@ c:\users\asus\documents\visual studio 2015\Projects\SistemaReservas\SistemaReser
 c:\users\asus\documents\visual studio 2015\Projects\SistemaReservas\SistemaReservas\obj\Debug\SistemaReservas.exe
 c:\users\asus\documents\visual studio 2015\Projects\SistemaReservas\SistemaReservas\obj\Debug\SistemaReservas.xml
 c:\users\asus\documents\visual studio 2015\Projects\SistemaReservas\SistemaReservas\obj\Debug\SistemaReservas.pdb
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\SistemaReservas\SistemaReservas\obj\Debug\SistemaReservas.Form3.resources
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\SistemaReservas\SistemaReservas\obj\Debug\SistemaReservas.Configurar.resources
