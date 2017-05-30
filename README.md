@@ -1,3 +1,3 @@
 # Base de Dados 2016
 
-Sistema de Reservas(Booking) de Viagens com possibilidade inclusão de estadia em alojamento.
+Simple Database for a Management System of a Travel Agency 
